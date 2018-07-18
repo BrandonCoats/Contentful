@@ -8,6 +8,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Contentful.AspNetCore;
+using Microsoft.EntityFrameworkCore;
+using Contentful.Options;
 
 namespace boilerplate.net.web
 {
@@ -31,6 +33,9 @@ namespace boilerplate.net.web
             // Add framework services.
             services.AddMvc();
             services.AddContentful(Configuration);
+            services.Configure<DBContext>(Configuration.GetSection("Database"));
+           string connection = Configuration.GetSection("Database").GetValue<string>("ConnectionString");
+            services.AddDbContext<CampaignContext>(options => options.UseSqlServer(connection));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
