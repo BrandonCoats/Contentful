@@ -35,7 +35,7 @@ namespace Contentful.Controllers
             {
                 return BadRequest(ModelState);
             }
-            //Get this working
+            //Get this working 
             var campaignConfiguration = await _context.CampaignConfiguration.FindAsync(id);
 
             if (campaignConfiguration == null)
