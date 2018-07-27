@@ -20,14 +20,15 @@ namespace Contentful.Controllers
             _context = context;
         }
 
-        // GET: api/ContentManager
+        // GET: /api/ContentManager
         [HttpGet]
         public IEnumerable<CampaignConfiguration> GetCampaignConfiguration()
         {
             return _context.CampaignConfiguration;
         }
 
-        // GET: api/ContentManager/5
+
+        // GET: /api/ContentManager/5
         [HttpGet("{id}")]
         public async Task<IActionResult> GetAssociatedCampaign([FromRoute] int id)
         {
@@ -46,7 +47,8 @@ namespace Contentful.Controllers
             return Ok(campaignConfiguration);
         }
 
-        // PUT: api/ContentManager/5
+
+        // PUT: /api/ContentManager/5
         [HttpPut("{id}")]
         public async Task<IActionResult> PutCampaignConfiguration([FromRoute] int id, [FromBody] CampaignConfiguration campaignConfiguration)
         {
@@ -81,7 +83,7 @@ namespace Contentful.Controllers
             return NoContent();
         }
 
-        // POST: api/ContentManager
+        // POST: /api/ContentManager
         [HttpPost]
         public async Task<IActionResult> PostCampaignConfiguration([FromBody] CampaignConfiguration campaignConfiguration)
         {
@@ -96,7 +98,8 @@ namespace Contentful.Controllers
             return CreatedAtAction("GetCampaignConfiguration", new { id = campaignConfiguration.Id }, campaignConfiguration);
         }
 
-        // DELETE: api/ContentManager/5
+
+        // DELETE: /api/ContentManager/5
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteCampaignConfiguration([FromRoute] int id)
         {
