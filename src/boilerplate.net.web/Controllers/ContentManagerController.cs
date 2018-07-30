@@ -6,6 +6,9 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Contentful.Models;
+using Contentful.Core.Configuration;
+using Microsoft.Extensions.Options;
+using Contentful.Core;
 
 namespace Contentful.Controllers
 {
@@ -14,10 +17,11 @@ namespace Contentful.Controllers
     public class ContentManagerController : ControllerBase
     {
         private readonly ContentManagerContext _context;
-
-        public ContentManagerController(ContentManagerContext context)
+        private readonly IContentfulClient _client;
+        public ContentManagerController(ContentManagerContext context, IContentfulClient client, IOptions<ContentfulOptions> contentfulOptions)
         {
             _context = context;
+            _client = client;
         }
 
         // GET: /api/ContentManager
