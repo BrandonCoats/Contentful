@@ -9,6 +9,8 @@ using Contentful.Models;
 using Contentful.Core.Configuration;
 using Microsoft.Extensions.Options;
 using Contentful.Core;
+using System.Net.Http;
+using Contentful.Core.Search;
 
 namespace Contentful.Controllers
 {
@@ -18,6 +20,7 @@ namespace Contentful.Controllers
     {
         private readonly ContentManagerContext _context;
         private readonly IContentfulClient _client;
+        
         public ContentManagerController(ContentManagerContext context, IContentfulClient client, IOptions<ContentfulOptions> contentfulOptions)
         {
             _context = context;
@@ -41,14 +44,19 @@ namespace Contentful.Controllers
                 return BadRequest(ModelState);
             }
             //Get this working 
-            var campaignConfiguration = await _context.CampaignConfiguration.FindAsync(id);
-
-            if (campaignConfiguration == null)
+            var dbentry = await _context.Person.FindAsync(id);
+            var userid = dbentry.Id.ToString();
+            var builder = QueryBuilder<Campaign>.New.ContentTypeIs("campaign").FieldEquals("fields.slug", "soso-wall-clock");
+            var entries = await _client.GetEntries(builder);
+            // entries would be an IEnumerable of Product
+            var entriesForUser  = await _client.GetEntry<dynamic>(userid);
+            //_client.
+            if (entriesForUser == null)
             {
                 return NotFound();
             }
-
-            return Ok(campaignConfiguration);
+            
+            return Ok(entriesForUser);
         }
 
 
@@ -67,7 +75,7 @@ namespace Contentful.Controllers
             }
 
             _context.Entry(campaignConfiguration).State = EntityState.Modified;
-
+            
             try
             {
                 await _context.SaveChangesAsync();
