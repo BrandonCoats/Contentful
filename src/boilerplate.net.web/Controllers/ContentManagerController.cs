@@ -44,12 +44,13 @@ namespace Contentful.Controllers
                 return BadRequest(ModelState);
             }
             //Get this working 
+
             var dbentry = await _context.Person.FindAsync(id);
             var userid = dbentry.Id.ToString();
-            var builder = QueryBuilder<Campaign>.New.ContentTypeIs("campaign").FieldEquals("fields.slug", "soso-wall-clock");
-            var entries = await _client.GetEntries(builder);
+            var builder = QueryBuilder<Campaign>.New.ContentTypeIs("campaign").FieldEquals("fields.owner", "Brandon Coats");
+            var entriesForUser = await _client.GetEntries(builder);
             // entries would be an IEnumerable of Product
-            var entriesForUser  = await _client.GetEntry<dynamic>(userid);
+           // var entriesForUser  = await _client.GetEntry<dynamic>(userid);
             //_client.
             if (entriesForUser == null)
             {
