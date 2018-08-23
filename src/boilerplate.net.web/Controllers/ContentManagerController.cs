@@ -45,9 +45,10 @@ namespace Contentful.Controllers
             }
             //Get this working 
 
+
             var dbentry = await _context.Person.FindAsync(id);
-            var userid = dbentry.Id.ToString();
-            var builder = QueryBuilder<Campaign>.New.ContentTypeIs("campaign").FieldEquals("fields.owner", "Brandon Coats");
+            var userid = dbentry.FirstName + " " + dbentry.LastName;
+            var builder = QueryBuilder<dynamic>.New.ContentTypeIs("campaign").FieldEquals("fields.owner", userid);
             var entriesForUser = await _client.GetEntries(builder);
             // entries would be an IEnumerable of Product
            // var entriesForUser  = await _client.GetEntry<dynamic>(userid);
